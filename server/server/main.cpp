@@ -1,5 +1,7 @@
 #include <iostream>
 #include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <tchar.h>
 
 using namespace std;
 
@@ -40,6 +42,20 @@ int main() {
 		cout << "socket creaion failed" << endl;
 		return 1;
 	}
+
+	// create address structure
+	sockaddr_in serveraddr;
+	serveraddr.sin_family = AF_INET;
+	serveraddr.sin_port = htons(12345);
+
+	// convert ip address to binary 
+	if (InetPton(AF_INET, _T("0.0.0.0"), &serveraddr.sin_addr) != 1) {
+		cout << "setting address structure failed" << endl;
+		closesocket(listensocket);
+		WSACleanup();
+		return 1;
+	}
+
 	WSACleanup();
 	return 0;
 }
