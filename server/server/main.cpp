@@ -56,6 +56,14 @@ int main() {
 		return 1;
 	}
 
+	//bind
+	if (bind(listensocket, reinterpret_cast<sockaddr*>(&serveraddr), sizeof(serveraddr)) == SOCKET_ERROR) {
+		cout << "bind failed" << endl;
+		closesocket(listensocket);
+		WSACleanup();
+		return 1;
+	}
+
 	WSACleanup();
 	return 0;
 }
