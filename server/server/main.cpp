@@ -21,7 +21,25 @@ using namespace std;
 
 
 */
+
+bool initialize() {
+	WSADATA data;
+	return WSAStartup(MAKEWORD(2, 2),&data) == 0;
+}
+
 int main() {
 
+	if (!initialize()) {
+		cout << "winsokcet not initialize" << endl;
+		return 1;
+	}
+
+	SOCKET listensocket = socket(AF_INET,SOCK_STREAM,0);
+
+	if (listensocket == INVALID_SOCKET) {
+		cout << "socket creaion failed" << endl;
+		return 1;
+	}
+	WSACleanup();
 	return 0;
 }
